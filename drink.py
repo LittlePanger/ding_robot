@@ -4,4 +4,4 @@ from message import Msg
 msg = Msg()
 msg.drink()
 msg.weather()
-msg.send_msg()
+msg.send_markdown('喝口水吧')
