@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
 import json
+import time
 
 from logger import logging
 from config import global_config
@@ -12,14 +13,19 @@ def get_weather():
     location = global_config.get('config', 'location')
 
     # 失败重试5次
-    result = False
     count = 0
-    while not (result or count > 5):
+    while count < 5:
         try:
             count += 1
-            result = requests.get(url=url, params={'location': location, 'key': key})
+            result = requests.get(url=url, params={'location': location, 'key': key}, timeout=(3, 1))
+            if result:
+                return get_result(result)
         except Exception as e:
-            logging.error(f'retry, {e}')
+            logging.error(f'retry,{count}, {e}')
+            time.sleep(1)
+
+
+def get_result(result):
     result = json.loads(result.text)["hourly"][0]
     logging.info(result)
     if float(result['precip']) > 0:
@@ -38,4 +44,3 @@ def get_weather():
             precip_text = '特大暴雨'
         result['precip_text'] = precip_text
     return result
-
