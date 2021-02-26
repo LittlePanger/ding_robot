@@ -4,7 +4,7 @@ import json
 from sign import build_sign
 from config import global_config
 from weather import get_weather
-
+from fund import get_fund
 
 class Msg:
     def __init__(self):
@@ -27,10 +27,11 @@ class Msg:
         msg_json = json.dumps(msg)
         requests.post(url=self.url, data=msg_json, headers=self.headers)
 
-    def send_markdown(self, title):
-        img = global_config.get('config', 'img')
-        if img:
-            self.content += "![](%s)" % img
+    def send_markdown(self, title, use_img=False):
+        if use_img:
+            img = global_config.get('config', 'img')
+            if img:
+                self.content += "![](%s)" % img
         msg = {
             "msgtype": "markdown",
             "markdown": {
@@ -57,3 +58,6 @@ class Msg:
 
     def mao_tai(self):
         self.content += f"距离抢购茅台还有3分钟 {self.expression}"
+
+    def buy_fund(self, code):
+        self.content += get_fund(code)
