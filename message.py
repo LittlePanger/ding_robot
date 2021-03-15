@@ -54,7 +54,7 @@ class Msg:
 > 降水概率: {weather['pop']}%\n
 """
             if weather.get('precip_text'):
-                self.content += f"> 降雨量{weather['precip']} {weather['precip_text']}"
+                self.content += f"> 降雨量{weather['precip']} {weather['precip_text']}\n"
 
     def mao_tai(self):
         self.content += f"距离抢购茅台还有3分钟 {self.expression}"
