@@ -31,7 +31,7 @@ class Msg:
         if use_img:
             img = global_config.get('config', 'img')
             if img:
-                self.content += "![](%s)" % img
+                self.content += "\n![](%s)" % img
         msg = {
             "msgtype": "markdown",
             "markdown": {
